@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,7 +17,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps){
     return (
         <Navbar expand='lg' data-bs-theme={backgroundTheme} bg={backgroundTheme}>
             <Container fluid>
-                <Navbar.Brand href='/'>Kekambas Blog</Navbar.Brand>
+                <Navbar.Brand as={Link} to='/'>Kekambas Blog</Navbar.Brand>
                 <Navbar.Toggle aria-controls='nav-collapse' />
                 <Navbar.Collapse id='nav-collapse'>
                     <Nav className='me-auto'>
@@ -27,7 +28,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps){
                             </>
                         ) : (
                             <>
-                                <Nav.Link href='/'>Sign Up</Nav.Link>
+                                <Nav.Link as={Link} to='/signup'>Sign Up</Nav.Link>
                                 <Nav.Link href='/'>Log In</Nav.Link>
                             </>
                         )}
