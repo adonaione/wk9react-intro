@@ -3,17 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import PostCard from '../components/PostCard';
+import { PostType } from '../types';
 
-type Post = {
-  id: number,
-  title: string
-}
+
 
 type Sorting = {
-  idAsc: (a: Post, b:Post) => number,
-  idDesc: (a: Post, b:Post) => number,
-  titleAsc: (a: Post, b:Post) => number,
-  titleDesc: (a: Post, b:Post) => number,
+  idAsc: (a: PostType, b:PostType) => number,
+  idDesc: (a: PostType, b:PostType) => number,
+  titleAsc: (a: PostType, b:PostType) => number,
+  titleDesc: (a: PostType, b:PostType) => number,
 }
 
 type HomeProps = {
@@ -23,23 +22,75 @@ type HomeProps = {
 
 export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
-  const [posts, setPosts] = useState([
-    { id: 1, title: 'Grounding Techniques' },
-    { id: 2, title: 'Smudging 101' },
-    { id: 3, title: 'Meditation for Beginners' },
-    { id: 4, title: 'The Power of Crystals' }
-  ]);
+  const [posts, setPosts] = useState<PostType[]>([
+    {
+        author: {
+            dateCreated: "Fri, 29 Mar 2024 16:58:44 GMT",
+            email: "brians@codingtemple.com",
+            firstName: "Adonai",
+            id: 1,
+            lastName: "Romero",
+            username: "adonaione"
+        },
+        body: "Grounding techniques are a great way to help you stay present and in the moment.",
+        dateCreated: "Fri, 29 Mar 2024 17:00:35 GMT",
+        id: 1,
+        title: "Grounding Techniques"
+    },
+    {
+        author: {
+            dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
+            email: "brians@codingtemple.com",
+            firstName: "Adonai",
+            id: 1,
+            lastName: "Romero",
+            username: "adonaione"
+        },
+        body: "Smudging is a great way to cleanse your space and invite positive energy.",
+        dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
+        id: 1,
+        title: "Smudging 101"
+    },
+    {
+      author: {
+          dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
+          email: "brians@codingtemple.com",
+          firstName: "Adonai",
+          id: 1,
+          lastName: "Romero",
+          username: "adonaione"
+      },
+      body: "Meditation is a great way to relax and unwind after a long day.",
+      dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
+      id: 1,
+      title: "Meditation for Beginners"
+  },
+  {
+    author: {
+        dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
+        email: "brians@codingtemple.com",
+        firstName: "Adonai",
+        id: 1,
+        lastName: "Romero",
+        username: "adonaione"
+    },
+    body: "Crystals have been used for centuries for their healing properties.",
+    dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
+    id: 1,
+    title: "The Power of Crystals"
+}
+])
 
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
-    const sortFunctions = {
-      idAsc: (a: Post, b: Post) => a.id - b.id,
-      idDesc: (a: Post, b: Post) => b.id - a.id,
-      titleAsc: (a: Post, b: Post) => a.title > b.title ? 1 : -1,
-      titleDesc: (a: Post, b: Post) => b.title > a.title ? 1 : -1
-    }
+    const sortFunctions:Sorting = {
+      idAsc: (a:PostType, b:PostType) => a.id - b.id,
+      idDesc: (a:PostType, b:PostType) => b.id - a.id,
+      titleAsc: (a:PostType, b:PostType) => a.title > b.title ? 1 : -1,
+      titleDesc: (a:PostType, b:PostType) => b.title > a.title ? 1 : -1
+  }
     const func = sortFunctions[e.target.value as keyof Sorting];
     const newSortedArr = [...posts].sort(func);
     setPosts(newSortedArr);
@@ -53,7 +104,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
   return (
     <>
-        <h1>Greetings Earthlings</h1>
+      <h1>Greetings Earthlings</h1>
         <Button variant='primary' onClick={handleClick}>Click Me!</Button>
         <h2>{isLoggedIn ? `Welcome Back` : 'Please Log In or Sign Up'}</h2>
         <Row>
@@ -70,8 +121,8 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
             </Form.Select>
           </Col>
         </Row>
-        {posts.filter(p => p.title.toLowerCase().startsWith(searchTerm.toLowerCase())).map( p => <h4 key={p.id}>{p.title}</h4> )}
-      </>
+        {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <PostCard key={p.id} post={p} /> )}
+    </>
   )
 }
 
