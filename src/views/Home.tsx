@@ -4,7 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PostCard from '../components/PostCard';
-import { PostType } from '../types';
+import PostForm from '../components/PostForm';
+import { PostFormDataType, PostType } from '../types';
 
 
 
@@ -22,6 +23,7 @@ type HomeProps = {
 
 export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
+  const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([
     {
         author: {
@@ -100,7 +102,12 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
     setSearchTerm(e.target.value);
   }
 
-
+  const addNewPost = (newPostData: PostFormDataType) => {
+    const author = {id: 1, firstName: 'Adonai', lastName: 'Romero', email: 'adonai.devs@gmail.com', username: 'adonaione', dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT"}
+    const newPost: PostType = {...newPostData, id:posts.length+1, dateCreated:new Date().toString(), author}
+    setPosts([...posts, newPost]);
+    setShowForm(false);
+  }
 
   return (
     <>
@@ -120,7 +127,11 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
               <option value="titleDesc">Sort By Title DESC</option>
             </Form.Select>
           </Col>
+          <Col>
+            <Button className='w-100' variant='success' onClick={() => setShowForm(!showForm)}>{showForm ? 'Hide Form' : 'Add Post'}</Button>
+          </Col>
         </Row>
+        { showForm && <PostForm addNewPost={addNewPost}  /> }
         {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <PostCard key={p.id} post={p} /> )}
     </>
   )
