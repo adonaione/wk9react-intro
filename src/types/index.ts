@@ -1,3 +1,4 @@
+
 export type UserType = {
     id:number,
     firstName:string,
@@ -18,4 +19,13 @@ export type PostType = {
 export type PostFormDataType = {
     title:string,
     body:string
+}
+
+export type UserFormDataType = {
+    firstName:string,
+    lastName:string,
+    username:string,
+    email:string,
+    password:string,
+    confirmPassword:string
 }

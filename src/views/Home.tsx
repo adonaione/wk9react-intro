@@ -28,7 +28,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
     {
         author: {
             dateCreated: "Fri, 29 Mar 2024 16:58:44 GMT",
-            email: "brians@codingtemple.com",
+            email: "adonai.devs@gmail.com",
             firstName: "Adonai",
             id: 1,
             lastName: "Romero",
@@ -42,7 +42,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
     {
         author: {
             dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
-            email: "brians@codingtemple.com",
+            email: "adonai.devs@gmail.com",
             firstName: "Adonai",
             id: 1,
             lastName: "Romero",
@@ -50,13 +50,13 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
         },
         body: "Smudging is a great way to cleanse your space and invite positive energy.",
         dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
-        id: 1,
+        id: 2,
         title: "Smudging 101"
     },
     {
       author: {
           dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
-          email: "brians@codingtemple.com",
+          email: "adonai.devs@gmail.com",
           firstName: "Adonai",
           id: 1,
           lastName: "Romero",
@@ -64,13 +64,13 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
       },
       body: "Meditation is a great way to relax and unwind after a long day.",
       dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
-      id: 1,
+      id: 3,
       title: "Meditation for Beginners"
   },
   {
     author: {
         dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
-        email: "brians@codingtemple.com",
+        email: "adonai.devs@gmail.com",
         firstName: "Adonai",
         id: 1,
         lastName: "Romero",
@@ -78,7 +78,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
     },
     body: "Crystals have been used for centuries for their healing properties.",
     dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
-    id: 1,
+    id: 4,
     title: "The Power of Crystals"
 }
 ])
