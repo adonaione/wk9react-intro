@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import PostCard from '../components/PostCard';
 import PostForm from '../components/PostForm';
 import { PostFormDataType, PostType } from '../types';
+import { getAllPosts } from '../lib/apiWrapper';
 
 
 
@@ -24,64 +25,16 @@ type HomeProps = {
 export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
   const [showForm, setShowForm] = useState(false);
-  const [posts, setPosts] = useState<PostType[]>([
-    {
-        author: {
-            dateCreated: "Fri, 29 Mar 2024 16:58:44 GMT",
-            email: "adonai.devs@gmail.com",
-            firstName: "Adonai",
-            id: 1,
-            lastName: "Romero",
-            username: "adonaione"
-        },
-        body: "Grounding techniques are a great way to help you stay present and in the moment.",
-        dateCreated: "Fri, 29 Mar 2024 17:00:35 GMT",
-        id: 1,
-        title: "Grounding Techniques"
-    },
-    {
-        author: {
-            dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
-            email: "adonai.devs@gmail.com",
-            firstName: "Adonai",
-            id: 1,
-            lastName: "Romero",
-            username: "adonaione"
-        },
-        body: "Smudging is a great way to cleanse your space and invite positive energy.",
-        dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
-        id: 2,
-        title: "Smudging 101"
-    },
-    {
-      author: {
-          dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
-          email: "adonai.devs@gmail.com",
-          firstName: "Adonai",
-          id: 1,
-          lastName: "Romero",
-          username: "adonaione"
-      },
-      body: "Meditation is a great way to relax and unwind after a long day.",
-      dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
-      id: 3,
-      title: "Meditation for Beginners"
-  },
-  {
-    author: {
-        dateCreated: "Tue, 14 Apr 2024 16:58:44 GMT",
-        email: "adonai.devs@gmail.com",
-        firstName: "Adonai",
-        id: 1,
-        lastName: "Romero",
-        username: "adonaione"
-    },
-    body: "Crystals have been used for centuries for their healing properties.",
-    dateCreated: "Tue, 16 Apr 2024 17:00:35 GMT",
-    id: 4,
-    title: "The Power of Crystals"
-}
-])
+  const [posts, setPosts] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    async function fetchData(){
+        const response = await getAllPosts();
+        console.log(response);
+    }
+
+    fetchData();
+  })
 
   const [searchTerm, setSearchTerm] = useState('');
 
