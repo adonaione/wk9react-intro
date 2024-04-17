@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { UserFormDataType } from '../types';
+import { register } from '../lib/apiWrapper';
 
 
 type Props = {}
@@ -29,9 +30,18 @@ export default function SignUp({ }: Props) {
         })
     }
 
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         console.log(userFormData);
+
+        let response = await register(userFormData);
+        if (response.error) {
+            console.log(response.error);
+        } else {
+            let newUser = response.data!;
+            console.log(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}`)
+        }
     }
 
     const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.confirmPassword;
