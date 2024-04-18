@@ -30,11 +30,14 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
   useEffect(() => {
     async function fetchData(){
         const response = await getAllPosts();
-        console.log(response);
+        if (response.data){
+            const posts = response.data;
+            setPosts(posts)
+        }
     }
 
     fetchData();
-  })
+}, [])
 
   const [searchTerm, setSearchTerm] = useState('');
 

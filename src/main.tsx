@@ -6,12 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
 import "bootstrap-icons/font/bootstrap-icons.css"; // Bootstrap Icons
 import './main.css'; // Import our own CSS - Should be imported AFTER bootstrap CSS
 
-
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
-)
+);

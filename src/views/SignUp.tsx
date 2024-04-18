@@ -3,13 +3,15 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { UserFormDataType } from '../types';
+import { CategoryType, UserFormDataType } from '../types';
 import { register } from '../lib/apiWrapper';
 
 
-type Props = {}
+type SignUpProps = {
+    flashMessage: (newMessage:string|undefined, newCategory:CategoryType|undefined) => void
+}
 
-export default function SignUp({ }: Props) {
+export default function SignUp({ flashMessage }: Props) {
     const [userFormData, setUserFormData] = useState<UserFormDataType>(
         {
             firstName: '',
@@ -19,15 +21,12 @@ export default function SignUp({ }: Props) {
             password: '',
             confirmPassword: ''
         }
-    );
+    )
 
     const [seePassword, setSeePassword] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserFormData({
-            ...userFormData,
-            [e.target.name]: e.target.value
-        })
+        setUserFormData({...userFormData, [e.target.name]: e.target.value })
     }
 
     const handleFormSubmit = async (e: React.FormEvent) => {
@@ -35,17 +34,17 @@ export default function SignUp({ }: Props) {
 
         console.log(userFormData);
 
-        let response = await register(userFormData);
-        if (response.error) {
-            console.log(response.error);
+        const response = await register(userFormData);
+        if (response.error){
+            flashMessage(response.error, 'danger');
         } else {
-            let newUser = response.data!;
-            console.log(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}`)
+            const newUser = response.data!
+            flashMessage(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}!`, 'success')
         }
     }
 
-    const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.confirmPassword;
-    // const disableSubmit= userFormData.password.length < 5 || userFormData.password !== userFormData.confirmPassword;
+    // const disableSubmit = userFormData.password.length < 5 || userFormData.password !== userFormData.confirmPassword
+    const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.confirmPassword
 
     return (
         <>
@@ -54,16 +53,16 @@ export default function SignUp({ }: Props) {
                 <Card.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Label htmlFor='firstName'>First Name</Form.Label>
-                        <Form.Control id='firstName' name='firstName' placeholder='Enter First Name' value={userFormData.firstName} onChange={handleInputChange} />
+                        <Form.Control id='firstName' name='firstName' placeholder='Enter First Name' value={userFormData.firstName} onChange={handleInputChange}/>
 
                         <Form.Label htmlFor='lastName'>Last Name</Form.Label>
-                        <Form.Control id='lastName' name='lastName' placeholder='Enter Last Name' value={userFormData.lastName} onChange={handleInputChange} />
+                        <Form.Control id='lastName' name='lastName' placeholder='Enter Last Name' value={userFormData.lastName} onChange={handleInputChange}/>
 
                         <Form.Label htmlFor='email'>Email</Form.Label>
-                        <Form.Control id='email' name='email' type='email' placeholder='Enter Your Email' value={userFormData.email} onChange={handleInputChange} />
+                        <Form.Control id='email' name='email' type='email' placeholder='Enter Email' value={userFormData.email} onChange={handleInputChange}/>
 
                         <Form.Label htmlFor='username'>Username</Form.Label>
-                        <Form.Control id='username' name='username' placeholder='Enter Username' value={userFormData.username} onChange={handleInputChange} />
+                        <Form.Control id='username' name='username' placeholder='Enter Username' value={userFormData.username} onChange={handleInputChange}/>
 
                         <Form.Label htmlFor='password'>Password</Form.Label>
                         <InputGroup>
@@ -77,7 +76,7 @@ export default function SignUp({ }: Props) {
                             <InputGroup.Text onClick={() => setSeePassword(!seePassword)}><i className={seePassword ? 'bi bi-eye-slash' : 'bi bi-eye'}></i></InputGroup.Text>
                         </InputGroup>
 
-                        <Button type='submit' variant='outline-primary' className='w-100 mt-3' disabled={disableSubmit} >Create New User</Button>
+                        <Button type='submit' variant='outline-primary' className='w-100 mt-3' disabled={disableSubmit}>Create New User</Button>
                     </Form>
                 </Card.Body>
             </Card>

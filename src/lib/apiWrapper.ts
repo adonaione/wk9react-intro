@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { UserFormDataType, UserType } from '../types';
-
+import { PostType, UserFormDataType, UserType } from '../types';
 
 
 const baseURL:string = 'https://fakebook-sjrq.onrender.com/'
@@ -10,15 +9,13 @@ const postEndpoint:string = '/posts'
 
 const apiClientNoAuth = () => axios.create({
     baseURL: baseURL
-});
+})
 
-/* Create an instance of AXIOS */
 type APIResponse<T> = {
     data?: T,
     error?: string
 }
 
-/* Types UserFormDataType and UserType both imported from '../types' */
 async function register(newUserData:UserFormDataType): Promise<APIResponse<UserType>> {
     let data;
     let error;
@@ -51,7 +48,8 @@ async function getAllPosts(): Promise<APIResponse<PostType[]>> {
     return { data, error }
 }
 
+
 export {
     register,
-    getAllPosts
+    getAllPosts,
 }
