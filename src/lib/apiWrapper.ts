@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PostType, TokenType, UserFormDataType, UserType } from '../types';
+import { PostFormDataType, PostType, TokenType, UserFormDataType, UserType } from '../types';
 
 
 const baseURL:string = 'https://fakebook-sjrq.onrender.com/'
@@ -96,10 +96,27 @@ async function getAllPosts(): Promise<APIResponse<PostType[]>> {
     return { data, error }
 }
 
+async function createPost(token:string, postData:PostFormDataType): Promise<APIResponse<PostType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).post(postEndpoint, postData);
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+
+}
 
 export {
     register,
     getAllPosts,
     login,
-    getMe
+    getMe,
+    createPost
 }
