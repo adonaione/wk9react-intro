@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PostCard from '../components/PostCard';
 import PostForm from '../components/PostForm';
-import { PostFormDataType, PostType } from '../types';
+import { PostFormDataType, PostType, UserType } from '../types';
 import { getAllPosts } from '../lib/apiWrapper';
 
 
@@ -19,10 +19,10 @@ type Sorting = {
 
 type HomeProps = {
   isLoggedIn: boolean,
-  handleClick: () => void
+  currentUser: UserType | null,
 }
 
-export default function Home({isLoggedIn, handleClick}: HomeProps) {
+export default function Home({isLoggedIn, currentUser}: HomeProps) {
 
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -65,15 +65,14 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
     setShowForm(false);
   }
 
+
   return (
     <>
-      <h1>Greetings Earthlings</h1>
-        <Button variant='primary' onClick={handleClick}>Click Me!</Button>
-        <h2>{isLoggedIn ? `Welcome Back` : 'Please Log In or Sign Up'}</h2>
-        <Row>
-          <Col xs={12} md={8}>
+      <h1 className="text-center">{isLoggedIn && currentUser ? `Hello ${currentUser?.firstName} ${currentUser?.lastName}` : 'Welcome to the Blog' }</h1>
+      <Row>
+        <Col xs={12} md={6}>
             <Form.Control value={searchTerm} placeholder='Search Posts' onChange={handleInputChange} />
-          </Col>
+        </Col>
           <Col>
             <Form.Select onChange={handleSelectChange}>
               <option>Choose Sorting Option</option>
