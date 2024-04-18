@@ -7,9 +7,9 @@ type AlertMessageProps = {
     flashMessage: (newMessage:string|undefined, newCategory:CategoryType|undefined) => void
 }
 
-export default function AlertMessage({ message, category }: AlertMessageProps) {
+export default function AlertMessage({ message, category, flashMessage }: AlertMessageProps) {
     return (
-        <Alert className='mt-3' variant={category} dismissable onClose={() => flashMesage(undefined, undefined) }>
+        <Alert className='mt-3' variant={category} dismissible onClose={() => flashMessage(undefined, undefined) }>
             {message}
         </Alert>
     )
