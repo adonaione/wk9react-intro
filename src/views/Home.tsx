@@ -33,7 +33,7 @@ export default function Home({isLoggedIn, currentUser, flashMessage}: HomeProps)
         async function fetchData(){
             const response = await getAllPosts();
             if (response.data){
-                const posts = response.data;
+                let posts = response.data;
                 posts.sort( (a, b) => (new Date(a.dateCreated) > new Date(b.dateCreated)) ? -1 : 1 )
                 setPosts(posts)
             }
@@ -96,7 +96,8 @@ export default function Home({isLoggedIn, currentUser, flashMessage}: HomeProps)
                 )}
             </Row>
             { showForm && <PostForm addNewPost={addNewPost} /> }
-            {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <PostCard key={p.id} post={p} /> )}
+            {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <PostCard key={p.id} post={p} currentUser={currentUser} /> )}
         </>
     )
 }
+

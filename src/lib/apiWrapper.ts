@@ -26,7 +26,6 @@ const apiClientTokenAuth = (token:string) => axios.create({
     }
 })
 
-
 type APIResponse<T> = {
     data?: T,
     error?: string
@@ -48,13 +47,14 @@ async function register(newUserData:UserFormDataType): Promise<APIResponse<UserT
     return { data, error }
 }
 
+
 async function login(username:string, password:string): Promise<APIResponse<TokenType>> {
     let data;
     let error;
     try{
         const response = await apiClientBasicAuth(username, password).get(tokenEndpoint)
         data = response.data
-        } catch(err) {
+    } catch(err){
         if (axios.isAxiosError(err)){
             error = err.response?.data.error
         } else {
@@ -67,7 +67,7 @@ async function login(username:string, password:string): Promise<APIResponse<Toke
 async function getMe(token:string): Promise<APIResponse<UserType>> {
     let data;
     let error;
-    try{
+    try {
         const response = await apiClientTokenAuth(token).get(userEndpoint + '/me')
         data = response.data
     } catch(err) {
@@ -79,6 +79,7 @@ async function getMe(token:string): Promise<APIResponse<UserType>> {
     }
     return { data, error }
 }
+
 
 async function getAllPosts(): Promise<APIResponse<PostType[]>> {
     let data;
@@ -100,7 +101,7 @@ async function createPost(token:string, postData:PostFormDataType): Promise<APIR
     let data;
     let error;
     try{
-        const response = await apiClientTokenAuth(token).post(postEndpoint, postData);
+        const response = await apiClientTokenAuth(token).post(postEndpoint, postData)
         data = response.data
     } catch(err) {
         if (axios.isAxiosError(err)){
@@ -110,13 +111,47 @@ async function createPost(token:string, postData:PostFormDataType): Promise<APIR
         }
     }
     return { data, error }
-
 }
+
+async function getPostById(postId:string|number): Promise<APIResponse<PostType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientNoAuth().get(postEndpoint + '/' + postId)
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data?.error || `Post with ID ${postId} does not exist`
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
+async function editPostById(postId:string|number, token:string, editedPostData:PostFormDataType): Promise<APIResponse<PostType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).put(postEndpoint + '/' + postId, editedPostData)
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data?.error || `Post with ID ${postId} does not exist`
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
 
 export {
     register,
     getAllPosts,
     login,
     getMe,
-    createPost
+    createPost,
+    getPostById,
+    editPostById,
 }
